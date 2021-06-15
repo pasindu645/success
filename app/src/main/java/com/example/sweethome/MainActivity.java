@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     public Button btnresetpwd;
     Button btnsignout;
     Button btnresetemail;
+    Button btneditprofile;
     FirebaseAuth mFirebaseAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
 
@@ -35,7 +36,16 @@ public class MainActivity extends AppCompatActivity {
         btnresetpwd=findViewById(R.id.button4);
         btnsignout=findViewById(R.id.button3);
         btnresetemail=findViewById(R.id.button5);
+        btneditprofile=findViewById(R.id.button7);
         final FirebaseUser mFirebaseUser = mFirebaseAuth.getCurrentUser();
+
+        btneditprofile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent c = new Intent(MainActivity.this, editprofile.class);
+                startActivity(c);
+            }
+        });
         btnresetpwd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
                 emailresetdialog.setTitle("RESET E-MAIL");
                 emailresetdialog.setMessage("enter a new E-mail");
                 emailresetdialog.setView(resetemail);
-                final String newemail = resetemail.getText().toString();
+
 
                 emailresetdialog.setPositiveButton("yes", new DialogInterface.OnClickListener() {
 

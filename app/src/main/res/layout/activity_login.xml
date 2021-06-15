@@ -19,6 +19,16 @@
         app:layout_constraintVertical_bias="0.152"
         tools:srcCompat="@tools:sample/avatars" />
 
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/appCompatImageView"
+        android:layout_width="446dp"
+        android:layout_height="328dp"
+
+        android:src="@drawable/beautiful"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="-18dp"
+        tools:layout_editor_absoluteY="-39dp" />
+
     <EditText
         android:id="@+id/edit10"
         android:layout_width="wrap_content"
