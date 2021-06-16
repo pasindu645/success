@@ -42,7 +42,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getSupportActionBar().setTitle("Hiiiii");
-        mFirebaseAuth=FirebaseAuth.getInstance();
+
+
         btnresetpwd=findViewById(R.id.button4);
         btnsignout=findViewById(R.id.button3);
         btnresetemail=findViewById(R.id.button5);
@@ -54,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
         mFirebaseAuth=FirebaseAuth.getInstance();
         mfirestore=FirebaseFirestore.getInstance();
         userid= mFirebaseAuth.getCurrentUser().getUid();
+
         DocumentReference documentReference= mfirestore.collection("Users").document(userid);
         documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
@@ -68,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
         btneditprofile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent c = new Intent(MainActivity.this, editprofile.class);
                 startActivity(c);
             }
