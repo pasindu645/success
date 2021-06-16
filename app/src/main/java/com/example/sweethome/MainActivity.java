@@ -1,6 +1,7 @@
 package com.example.sweethome;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,19 +12,28 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 
 public class MainActivity extends AppCompatActivity {
     public Button btnresetpwd;
     Button btnsignout;
     Button btnresetemail;
     Button btneditprofile;
+    TextView fullname,email,phonenumber;
     FirebaseAuth mFirebaseAuth;
+    FirebaseFirestore mfirestore;
+    String userid;
     private FirebaseAuth.AuthStateListener authStateListener;
 
 
@@ -37,6 +47,22 @@ public class MainActivity extends AppCompatActivity {
         btnsignout=findViewById(R.id.button3);
         btnresetemail=findViewById(R.id.button5);
         btneditprofile=findViewById(R.id.button7);
+        fullname=findViewById(R.id.textView3);
+        email=findViewById(R.id.textView4);
+        phonenumber=findViewById(R.id.textView5);
+
+        mFirebaseAuth=FirebaseAuth.getInstance();
+        mfirestore=FirebaseFirestore.getInstance();
+        userid= mFirebaseAuth.getCurrentUser().getUid();
+        DocumentReference documentReference= mfirestore.collection("Users").document(userid);
+        documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable  DocumentSnapshot documentSnapshot, @Nullable  FirebaseFirestoreException e) {
+            phonenumber.setText(documentSnapshot.getString("tele"));
+            email.setText(documentSnapshot.getString("email"));
+            fullname.setText(documentSnapshot.getString("fname"));
+            }
+        });
         final FirebaseUser mFirebaseUser = mFirebaseAuth.getCurrentUser();
 
         btneditprofile.setOnClickListener(new View.OnClickListener() {
