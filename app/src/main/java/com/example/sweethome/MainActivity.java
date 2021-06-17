@@ -5,17 +5,24 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -24,17 +31,26 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 public class MainActivity extends AppCompatActivity {
     public Button btnresetpwd;
     Button btnsignout;
     Button btnresetemail;
     Button btneditprofile;
+    ImageView dp;
     TextView fullname,email,phonenumber;
     FirebaseAuth mFirebaseAuth;
     FirebaseFirestore mfirestore;
     String userid;
+    FirebaseUser user;
+    StorageReference storageReference;
+
     private FirebaseAuth.AuthStateListener authStateListener;
+
 
 
     @Override
@@ -48,13 +64,27 @@ public class MainActivity extends AppCompatActivity {
         btnsignout=findViewById(R.id.button3);
         btnresetemail=findViewById(R.id.button5);
         btneditprofile=findViewById(R.id.button7);
+        dp=findViewById(R.id.dp1);
         fullname=findViewById(R.id.textView3);
         email=findViewById(R.id.textView4);
         phonenumber=findViewById(R.id.textView5);
 
         mFirebaseAuth=FirebaseAuth.getInstance();
         mfirestore=FirebaseFirestore.getInstance();
+        user= mFirebaseAuth.getCurrentUser();
         userid= mFirebaseAuth.getCurrentUser().getUid();
+        storageReference= FirebaseStorage.getInstance().getReference();
+
+        StorageReference image = storageReference.child("Users/" + mFirebaseAuth.getCurrentUser().getUid()+"/profile.jpg");
+        image.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Log.d("tag", "onSuccess: Uploaded Image URl is " + uri.toString());
+                Picasso.get().load(uri).into(dp);
+            }
+        });
+
+
 
         DocumentReference documentReference= mfirestore.collection("Users").document(userid);
         documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
@@ -66,6 +96,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         final FirebaseUser mFirebaseUser = mFirebaseAuth.getCurrentUser();
+
+        /*dp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent openGalleryIntent =new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(openGalleryIntent,1000);
+            }
+        });*/
 
         btneditprofile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -168,4 +206,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
+
+
+
 }
