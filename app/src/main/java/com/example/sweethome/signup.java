@@ -95,8 +95,8 @@ public class signup extends AppCompatActivity {
 
             }
 
-             if (pwd.length()<5) {
-                password.setError("Password must be at least 5 characters");
+             if (pwd.length()<6) {
+                password.setError("Password must be at least 6 characters");
                 return;
             }
 
@@ -109,33 +109,7 @@ public class signup extends AppCompatActivity {
                 return;
             }
 
-             /*
-             Map<String, Object> user = new HashMap<>();
-user.put("first", "Ada");
-user.put("last", "Lovelace");
-user.put("born", 1815);
 
-// Add a new document with a generated ID
-db.collection("users")
-        .add(user)
-        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-            @Override
-            public void onSuccess(DocumentReference documentReference) {
-                Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-            }
-        })
-        .addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.w(TAG, "Error adding document", e);
-            }
-        });
-            */
-           /* Bundle NewUserDataBundleReceived= getIntent().getExtras();
-            final String fulname  = NewUserDataBundleReceived.getString("fullname");
-            final String mobileNo = NewUserDataBundleReceived.getString("MobileNo");
-            final String emailid = NewUserDataBundleReceived.getString("Email");
-            final String password = NewUserDataBundleReceived.getString("Password");*/
 
             mFirebaseAuth.createUserWithEmailAndPassword(email,pwd).addOnCompleteListener(task -> {
             if (task.isSuccessful()){

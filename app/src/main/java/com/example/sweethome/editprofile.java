@@ -35,6 +35,7 @@ import java.util.Map;
 
 public class editprofile extends AppCompatActivity {
     EditText fullname,email,phone;
+    Button changepws;
     Button editprofile;
     FirebaseFirestore mfirestore;
     FirebaseAuth mFirebaseAuth;
@@ -54,12 +55,19 @@ public class editprofile extends AppCompatActivity {
         phone=findViewById(R.id.editTextPhone2);
         editprofile=findViewById(R.id.buttonedit);
         dp=findViewById(R.id.imageView2);
-
+        changepws=findViewById(R.id.button8);
         mFirebaseAuth=FirebaseAuth.getInstance();
         mfirestore=FirebaseFirestore.getInstance();
         user=mFirebaseAuth.getCurrentUser();
         userid= mFirebaseAuth.getCurrentUser().getUid();
         storageReference= FirebaseStorage.getInstance().getReference();
+
+        changepws.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(editprofile.this ,changepassword.class));
+            }
+        });
 
         StorageReference image = storageReference.child("Users/" + mFirebaseAuth.getCurrentUser().getUid()+"/profile.jpg");
         image.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {

@@ -37,7 +37,7 @@ import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
 public class MainActivity extends AppCompatActivity {
-    public Button btnresetpwd;
+
     Button btnsignout;
     Button btnresetemail;
     Button btneditprofile;
@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Hiiiii");
 
 
-        btnresetpwd=findViewById(R.id.button4);
+
         btnsignout=findViewById(R.id.button3);
         btnresetemail=findViewById(R.id.button5);
         btneditprofile=findViewById(R.id.button7);
@@ -113,46 +113,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(c);
             }
         });
-        btnresetpwd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                final  EditText resetpwd=new EditText(v.getContext());
-                final AlertDialog.Builder passwordresetdialog=new AlertDialog.Builder(v.getContext());
-                passwordresetdialog.setTitle("RESET PASSWORD");
-                passwordresetdialog.setMessage("enter new password");
-                passwordresetdialog.setView(resetpwd);
-
-
-
-                passwordresetdialog.setPositiveButton("yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        String newpwd=resetpwd.getText().toString();
-                        mFirebaseUser.updatePassword(newpwd).addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (!task.isSuccessful()){
-                                    Toast.makeText(MainActivity.this,"reset unsuccessful",Toast.LENGTH_SHORT).show();
-                                }
-
-                                else {
-                                    Toast.makeText(MainActivity.this,"reset successful",Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
-
-                    }
-                });
-                passwordresetdialog.setNegativeButton("no", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                });
-                passwordresetdialog.create().show();
-            }
-        });
         btnresetemail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
