@@ -78,4 +78,15 @@
         app:layout_constraintHorizontal_bias="0.934"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <Button
+        android:id="@+id/button"
+        android:layout_width="149dp"
+        android:layout_height="51dp"
+        android:layout_marginBottom="180dp"
+        android:text="Chapture me"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.883"
+        app:layout_constraintStart_toStartOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
